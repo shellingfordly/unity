@@ -4,6 +4,26 @@
 
 ### 生命周期
 
+- Update 每一帧都调用一次
+- LateUpdate Update 执行完后调用，每一帧都调用一次
+- FixedUpdate 每隔一段时间执行一次
+- Awake 脚本初始化，执行一次
+- Start 脚本启动时执行(在 Update 之前、Awake 之后执行)
+- OnDestroy 脚本销毁时调用
+- OnGUI 绘制游戏界面函数，每一帧执行多次
+- OnCollisionEnter 碰撞时执行
+- OnCollisionStay 持续碰撞
+- OnCollisionExit 结束碰撞
+- OnTriggerEnter 触发器执行
+- OnTriggerStay 持续触发
+- OnTriggerExit 结束触发
+- OnMouseDown GUI Element 或 Collider(碰撞器) 上按下时执行
+- OnMouseOver GUI 元素或碰撞器上经过时执行
+- OnMouseEnter 鼠标进入时执行，只执行一次
+- OnMouseExit 鼠标离开目标时执行
+- OnMouseUp 鼠标释放时执行
+- OnMouseDrag 拖动对象时执行
+
 ### GameObject
 
 - 获取当前组件对象 GameObject
@@ -29,6 +49,13 @@ test.SetActive(false)
 ```
 
 ### 组件
+
+- Line Renderer 线段渲染器
+- Trail Renderer 轨迹渲染器
+- Rigidbody 刚体
+- Hinge Joint 铰链关节
+- Spring Joint 弹簧关节
+- Fixed Joint 固定关节
 
 ```c#
 // 获取transform组件
@@ -299,3 +326,143 @@ void Update()
   }
 }
 ```
+
+### 声音
+
+- Play 播放
+- Stop 停止
+- isPlaying 是否正在播放
+- Pause 暂停
+- UnPause 继续
+- PlayOneShot 播放一次
+
+```c#
+public class Audio: MonoBehaviour
+{
+  public AudioClip music;
+  public AudioClip se;
+
+  // 播放器组件
+  private AudioSource player;
+
+  void Start()
+  {
+    player = GetComponent<AudioSource>();
+    // 设定播放的音频片段
+    player.clip = music;
+    player.loop = true; // 循环
+    player.volume = 0.5f;  // 音量
+    player.Play(); // 播放
+    player.Stop(); // 停止
+    player.isPlaying // 是否正在播放
+    player.Pause(); // 暂停
+    player.UnPause(); // 继续
+    player.PlayOneShot(se) // 播放一次
+  }
+}
+```
+
+### 视频
+
+与音频一样的 api
+
+```c#
+using UnityEngine.Video;
+
+public class Audio: MonoBehaviour
+{
+  private VideoPlayer player;
+
+  void Start()
+  {
+    player = GetComponent<VideoPlayer>();
+  }
+}
+```
+
+### 角色控制器
+
+```c#
+public class Audio: MonoBehaviour
+{
+  private CharacterController player;
+
+  void Start()
+  {
+    player = GetComponent<CharacterController>();
+  }
+
+  void Update()
+  {
+    // 水平轴
+    float horizontal = Input.GetAxis("Horizontal");
+    // 垂直轴
+    float vertical = Input.GetAxis("Vertical");
+    // 创建一个方向向量
+    Vector3 dir = new Vector3(horizontal, 0, vertical)
+    // (有重力)向某个方向移动
+    player.SimpleMove(dir * 2)
+  }
+}
+```
+
+### 碰撞
+
+```c#
+public class Fire: MonoBehaviour
+{
+  // 创建一个爆炸预设体
+  public GameObject Prefab;
+
+  // 碰撞时触发此函数
+  // collision 碰撞到的物体
+  private void OnCollisionEnter(Collision collision)
+  {
+    // 创建一个爆炸物体
+    Instantiate(Prefab, transform.position, Quaternion.identity)
+    // 摧毁自身
+    Destroy(gameObject)
+  }
+
+}
+```
+
+### 触发器
+
+```c#
+public class Fire: MonoBehaviour
+{
+  // other 进入出发的物体
+  private void OnTriggerEnter(Collision other)
+  {
+     GameObject door = GameObject.Find("Door")
+     if(door != null)
+     {
+      door.SetActive(false)
+     }
+  }
+}
+```
+
+### 射线
+
+```c#
+public class Ray: MonoBehaviour
+{
+  void Update()
+  {
+    // 创建射线
+    Ray ray = new Ray(Vector3.zero, Vector3.up)
+    // 创建射线
+    Ray ray = Camera.main.ScreenPointRay(Input.mousePosition);
+    // 声明一个碰撞类
+    RaycastHit hit;
+    // 碰撞检测
+    bool res = Physics.Raycast(ray, out hit);
+    // 移动物体
+    transform.position = hit.point
+  }
+}
+```
+
+### 动画
