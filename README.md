@@ -466,3 +466,35 @@ public class Ray: MonoBehaviour
 ```
 
 ### 动画
+
+- Rig
+  - 旧版
+  - 泛型
+  - 人形
+
+### 动力
+
+- IK 是什么
+
+```c#
+public class Audio: MonoBehaviour
+{
+  private Transform target;
+
+  private void OnAnimatorIK(int layerIndex)
+  {
+    // 设置头部IK 权重
+    animator.SetLookAtWeight(1);
+    // 看向目标位置
+    animator.SetLookAtPosition(target.position)
+    // 设置右手IK权重
+    animator.SetIKPositionWeight(AvatarIKGoal.RightHand,1)
+    // 旋转权重
+    animator.SetIKRotationWeight(AvatarIKGoal.RightHand,1)
+    // 设置右手IK
+    animator.SetIKPosition(AvatarIKGoal.RightHand,target.position)
+    // 设置右手旋转IK
+    animator.SetIKRotation(AvatarIKGoal.RightHand,target.rotation)
+  }
+}
+```
