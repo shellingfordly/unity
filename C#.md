@@ -109,6 +109,8 @@ short res = (short)(num1 + num2)
 
 ### 数组
 
+#### 属性
+
 - IsFixedSize 数组是否固定大小
 - IsReadOnly 是否只读
 - Length 长度
@@ -118,4 +120,52 @@ short res = (short)(num1 + num2)
 #### 方法
 
 - Clear 设置某个范围的元素为 0/false/null
-- Copy(Array, Array, Int32)
+- Copy(Array, Array, Int32) 从第一个参数拷贝多少个到第二参数
+- GetLength 表示指定维度的数组中的元素总数(适合多维数组)
+
+#### 多维数组/交错数组
+
+```c#
+// 交错数组
+int[][] arr2 = new int[][]{
+  new int[]{0},
+  new int[]{1,2},
+  new int[]{3,4,5},
+};
+// 多维数组
+int [,] arr3 = new int [2,2] {
+  {1,2},
+  {3,4}
+};
+Console.WriteLine(arr2.Length); // 3
+Console.WriteLine(arr2.GetLength(0)); // 3
+Console.WriteLine(arr2.GetLength(1)); // 报错
+Console.WriteLine(arr3.Length); // 4
+Console.WriteLine(arr3.GetLength(0)); // 2
+Console.WriteLine(arr3.GetLength(1)); // 2
+```
+
+#### 参数数组
+
+params 参数数组，可以传数组，变量集合，或者不传。
+
+```c#
+Add(new int[] {1,2,3});
+Add(1,2);
+Add();
+int Add(params int[] arr){
+  return arr.Length
+}
+```
+
+### 类型分类
+
+- 值类型
+  - 结构
+    - 数值类型
+    - bool
+    - char
+  - 枚举
+- 引用类型
+  - 接口
+  - 类 string Array 委托
