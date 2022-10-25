@@ -1,5 +1,7 @@
 # C#
 
+- 单例
+
 ## 基础
 
 ### 代码
@@ -169,3 +171,86 @@ int Add(params int[] arr){
 - 引用类型
   - 接口
   - 类 string Array 委托
+
+## 类
+
+### override
+
+重写父类中的虚方法时使用**override**关键字，以免发生意外重定义
+
+### 修饰符
+
+- public：访问不受限制。
+- private：访问仅限于此类。
+- protected：访问仅限于此类或派生自此类的类。
+- internal：仅可访问当前程序集（.exe 或 .dll）。
+- protected internal：仅可访问此类、从此类中派生的类，或者同一程序集中的类。
+- private protected：仅可访问此类或同一程序集中从此类中派生的类。
+
+### 参数
+
+#### 引用参数
+
+- 修改值形参不会影响为其传递的实参；
+- 使用引用参数可以，引用参数指出的存储位置与自变量相同；
+
+```c#
+static void Swap(ref int x, ref int y)
+{
+    int temp = x;
+    x = y;
+    y = temp;
+}
+
+public static void SwapExample()
+{
+    int i = 1, j = 2;
+    Swap(ref i, ref j);
+    // 引用参数将改变实参的值
+    Console.WriteLine($"{i} {j}");    // "2 1"
+}
+```
+
+#### 输出参数
+
+输出参数与引用参数类似，作用是将参数赋值给调用方提供给的自变量
+
+```c#
+static void Divide(int x, int y, out int quotient, out int remainder)
+{
+    quotient = x / y;
+    remainder = x % y;
+}
+
+public static void OutUsage()
+{
+    Divide(10, 3, out int quo, out int rem);
+    Console.WriteLine($"{quo} {rem}");	// "3 1"
+}
+```
+
+#### 参数数组
+
+params 修饰符进行声明
+
+```c#
+public class Console
+{
+    public static void Write(string fmt, params object[] args) { }
+    public static void WriteLine(string fmt, params object[] args) { }
+    // ...
+}
+
+int x = 3, y = 4, z = 5;
+Console.WriteLine("x={0} y={1} z={2}", x, y, z);
+object[] args = new object[3];
+Console.WriteLine(s, args);
+```
+
+### 虚方法/重写方法/抽象方法
+
+- 虚方法：基类声明和实现的方法，任何派生类都可以提供更具体的实现
+- 重写方法：在派生类中实现的方法，可修改基类的实现的行为；
+- 抽象方法：基类中声明的方法，必须在派生类中重写
+
+## 对象

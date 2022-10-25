@@ -498,3 +498,22 @@ public class Audio: MonoBehaviour
   }
 }
 ```
+
+### 获取资源
+
+- Resources.Load() 仅加载在 resources 目录的资源
+- AssetBundle.LoadFromXXX() 只能加载 asset bundle
+- UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path) 编辑器内加载资源
+
+```c#
+// 仅在editor下生效
+#if UNITY_EDITOR
+  return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
+#elif UNITY_ANDROID || UNITY_IOS
+  // TODO
+#endif
+```
+
+### 日志
+
+Application.logMessageReceived
