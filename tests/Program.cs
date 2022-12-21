@@ -332,7 +332,7 @@
 // }
 
 
-List<int> weight = new List<int>() { 1, 2, 3, 4, 5, 6 };
+// List<int> weight = new List<int>() { 1, 2, 3, 4, 5, 6 };
 // List<float> weightEx = new List<float>() { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f };
 
 // List<float> newWeight = weight.Select(v => v + weightEx[weight.IndexOf(v)]).ToList();
@@ -392,48 +392,59 @@ List<int> weight = new List<int>() { 1, 2, 3, 4, 5, 6 };
 // Console.WriteLine($"{5 % 5}");
 
 
-List<int> arr = new List<int>() { 1, 2, 3 };
-arr.Clear();
-Console.WriteLine(arr.Count);
+// List<int> arr = new List<int>() { 1, 2, 3 };
+// arr.Clear();
+// Console.WriteLine(arr.Count);
 
-interface I
-{
-    int i { get; set; }
-    string name { get; set; }
-}
+// interface I
+// {
+//     int i { get; set; }
+//     string name { get; set; }
+// }
 
-abstract class AA
-{
-    public abstract void Func(); // 虚函数
-}
-class BB : AA
-{
-    public override void Func() // 虚函数
-    {
-        Console.WriteLine("Func In A");
-    }
-}
+// abstract class AA
+// {
+//     public abstract void Func(); // 虚函数
+// }
+// class BB : AA
+// {
+//     public override void Func() // 虚函数
+//     {
+//         Console.WriteLine("Func In A");
+//     }
+// }
 
-class CC : AA
-{
-    public override void Func() // 虚函数
-    {
-        Console.WriteLine("Func In A");
-    }
-}
+// class CC : AA
+// {
+//     public override void Func() // 虚函数
+//     {
+//         Console.WriteLine("Func In A");
+//     }
+// }
 
 
-public partial class A
-{
-    // 分部方法声明
-    partial void Write();
-}
-partial class A
-{
-    // 分部方法实现
-    partial void Write()
-    {
-        Console.WriteLine("这是一个分部方法");
-    }
-}
+// public partial class A
+// {
+//     // 分部方法声明
+//     partial void Write();
+// }
+// partial class A
+// {
+//     // 分部方法实现
+//     partial void Write()
+//     {
+//         Console.WriteLine("这是一个分部方法");
+//     }
+// }
 
+
+IContravariant<Object> iobj = new Sample<Object>();
+IContravariant<String> istr = new Sample<String>();
+iobj = (IContravariant<Object>)istr;
+Console.WriteLine(iobj == istr);
+
+interface IContravariant<in A> { }
+
+interface IExtContravariant<in A> : IContravariant<A> { }
+
+class Sample<A> : IContravariant<A> { }
