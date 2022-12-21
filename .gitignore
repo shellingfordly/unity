@@ -1,1 +1,5 @@
-demos/c#-demo1
+./tests/bin/*
+
+./tests/obj/*
+
+./tests/tests.csproj
