@@ -438,13 +438,71 @@
 // }
 
 
-IContravariant<Object> iobj = new Sample<Object>();
-IContravariant<String> istr = new Sample<String>();
-iobj = (IContravariant<Object>)istr;
-Console.WriteLine(iobj == istr);
+// IContravariant<Object> iobj = new Sample<Object>();
+// IContravariant<String> istr = new Sample<String>();
+// iobj = (IContravariant<Object>)istr;
+// Console.WriteLine(iobj == istr);
 
-interface IContravariant<in A> { }
+// interface IContravariant<in A> { }
 
-interface IExtContravariant<in A> : IContravariant<A> { }
+// interface IExtContravariant<in A> : IContravariant<A> { }
 
-class Sample<A> : IContravariant<A> { }
+// class Sample<A> : IContravariant<A> { }
+
+
+
+// var a1 = new AA();
+// a1.a = 1;
+// var a2 = new AA();
+// a2.a = 2;
+
+// var aa = new List<AA>() { a2, a1 };
+
+// aa.Sort((x, y) => x.a.CompareTo(y.a));
+
+// aa.ForEach(v =>
+// {
+//     Console.WriteLine(v.a);
+// });
+
+// class AA
+// {
+//     public int a = 0;
+// }
+
+
+// var aaa = new List<bool>() { true, true, false };
+// var res = aaa.All(r => r == true);
+// var res1 = aaa.Any(r => r == false);
+// var res2 = aaa.FindAll(v => v == true);
+// Console.WriteLine(res);
+// Console.WriteLine(res1);
+// Console.WriteLine(res2);
+
+// var aaa = new List<int>() { 9, 1, 5, 7, 9, 3, 4, 6, 5, 2, 1, 0, 7 };
+// aaa.Sort();
+
+// aaa.ForEach(v =>
+// {
+//     Console.WriteLine(v);
+// });
+
+// var a = 0.003;
+
+// Console.WriteLine(Math.Floor(a * 60));
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+
+double a = 0.00233333333231231314241;
+
+double time = 1676599322136 ;
+
+int r = (int)(a * time);
+double r2= a*time;
+int r3 = (int)r2;
+Console.WriteLine(r);
+Console.WriteLine(r2);
+Console.WriteLine(r3);
