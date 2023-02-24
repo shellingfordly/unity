@@ -1,5 +1,3 @@
-./tests/bin/*
-
-./tests/obj/*
-
+./tests/bin
+./tests/obj
 ./tests/tests.csproj
