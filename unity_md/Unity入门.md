@@ -202,6 +202,45 @@ Transform child = transform.Find(ChildName);
 - transform.SetAsLastSibling() 设置为最后一个子对象
 - transform.SetSiblingIndex(index) 设置子对象到 index 位置
 
+#### 坐标转换
+
+1. 世界坐标系转换为本地坐标系
+
+世界坐标系原点的**点的位置信息(x,y,z)**转换为相对本地坐标系原点的**点的位置信息**
+
+```c#
+// 受物体缩放影响
+// 将点Vector3.forward的位置转换为相对于transform物体的位置信息
+transform.InverseTransformPoint(Vector3.forward)
+```
+
+世界坐标系的**方向**转换为相对本地坐标系的**方向**
+
+```c#
+// 不受物体缩放影响
+transform.InverseTransformDirection(Vector3.forward)
+// 受物体缩放影响
+transform.InverseTransformVector(Vector3.forward)
+```
+
+2. 本地坐标系转换为世界坐标
+
+本地坐标系原点的某个**点的(x,y,z)**转换为相对世界坐标系原点的**点(x,y,z)**
+
+```c#
+// 受物体缩放影响
+transform.TransformDirection(Vector3.forward)
+```
+
+本地坐标系的**方向**转换为相对世界坐标系的**方向**
+
+```c#
+// 不受物体缩放影响
+transform.TransformDirection(Vector3.forward)
+// 受物体缩放影响
+transform.TransformVector(Vector3.forward)
+```
+
 ### Input
 
 #### 鼠标输入
@@ -571,8 +610,7 @@ Camera.main.ScreenToWorldPoint(v);
 
 约束，对刚体运动的限制，可以限制物体在某些轴上不发生移动/旋转
 
-- Freeze position 有选择地停止刚体沿世界x、y、z轴的移动
-- Freeze Rotation 有选择地停止刚体围绕局部x、y、z周旋转
-
+- Freeze position 有选择地停止刚体沿世界 x、y、z 轴的移动
+- Freeze Rotation 有选择地停止刚体围绕局部 x、y、z 周旋转
 
 #### 碰撞体
