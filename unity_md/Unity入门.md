@@ -566,3 +566,13 @@ Camera.main.ScreenToWorldPoint(v);
 - Continuous Speculative 连续动态检测，性能消耗高
 
 ![](./assets/2023-02-27-17-14-59.png)
+
+8. Constraints
+
+约束，对刚体运动的限制，可以限制物体在某些轴上不发生移动/旋转
+
+- Freeze position 有选择地停止刚体沿世界x、y、z轴的移动
+- Freeze Rotation 有选择地停止刚体围绕局部x、y、z周旋转
+
+
+#### 碰撞体

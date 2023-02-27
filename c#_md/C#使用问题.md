@@ -5,22 +5,22 @@
 - 不能在 foreach 遍历字典时修改字典值
 
 ```c#
-var DragonExplore = new Dictionary<int, int>();
+var Dict = new Dictionary<int, int>();
 
-foreach (var item in DragonExplore)
+foreach (var item in Dict)
 {
-    DragonExplore[item.Key] = newValue; // 报错
+    Dict[item.Key] = newValue; // 报错
 }
 ```
 
 - 需要修改字典 Value 时遍历 Keys
 
 ```c#
-var keys = DragonExplore.Keys.ToList();
+var keys = Dict.Keys.ToList();
 
 for (int i = 0; i < keys.Count; i++)
 {
-    DragonExplore[keys[i]] = newValue;
+    Dict[keys[i]] = newValue;
 }
 ```
 
@@ -30,6 +30,6 @@ for (int i = 0; i < keys.Count; i++)
 = 赋值时，用的是同一个对象
 
 ```c#
-public override TWingOutput Output { get; } = TWingOutput.New();
-public override TWingOutput Output => TWingOutput.New();
+public override T Output { get; } = T.New();
+public override T Output => T.New();
 ```
