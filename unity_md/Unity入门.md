@@ -614,3 +614,239 @@ Camera.main.ScreenToWorldPoint(v);
 - Freeze Rotation 有选择地停止刚体围绕局部 x、y、z 周旋转
 
 #### 碰撞体
+
+1. 3D 碰撞器种类
+
+- 盒状
+- 球状
+- 胶囊
+- 网格
+- 轮胎
+- 地形
+
+2. 共同参数
+
+- Is Trigger
+
+是否是触发器，如果启用此属性，则只用于没有物理效果的碰撞检测，不会产生反弹/被推动等物理效果。
+
+- Material 物理材质
+- Center
+
+碰撞体在对象局部空间的中心点位置，改变 Center 则改变碰撞体的位置
+
+3. 常用碰撞器
+
+- BoxCollider 盒装碰撞器
+  - size 碰撞体在 x/y/z 方向上的大小
+- Sphere Collider 球体碰撞器
+  - Radius 半径
+- Capsule Collider
+  - Radius 半径
+  - Height 高度
+  - Direction 碰撞体在对象局部空中的轴向
+
+4. 异形物体使用多种碰撞器组合
+
+刚体对象的子对象碰撞器信息参与碰撞检测
+
+对父对象添加刚体，对子对象添加碰撞器
+
+5. 不常用碰撞器
+
+- Mesh Collider 网格碰撞器
+  - Convex 添加刚体时必须启用
+  - Cooking Options
+  - Mesh
+- Wheel Collider 环状碰撞器
+- Terrain Collider 地形碰撞器
+
+#### 物理材质
+
+1. 参数
+
+- Dynamic Friction 移动摩擦力
+
+移动时使用的摩擦力，值为 0-1 之间，越趋近于 1 摩擦力越大
+
+- Static Friction 静止摩擦力
+
+对象静止时在表面上使用的摩擦力，值为 0-1 之间，越趋近于 1 摩擦力越大
+
+- Bounciness 弹性
+
+值为 0-1，为 0 的时候不会反弹，为 1 时不会产生任何能量损失
+
+- Friction Combine 两个碰撞对象的摩擦力的组合方式
+  - Average 对两个摩擦值求平均值
+  - Minimum 使用两个值中最小值
+  - Maximum 使用两个值中的最大值
+  - Multiply 两个摩擦值相乘
+- Bounce Combine 两个碰撞对象的弹性组合方式
+  - 和 Friction Combine 模式相同
+
+#### 碰撞检测函数
+
+1. OnCollisionEnter(collision)
+
+> 碰撞触发接触时，自动执行此函数
+
+- collision 碰撞对象，碰到自己的对象的相关信息
+  - collider 碰撞对象的碰撞器信息
+  - gameObject 碰撞对象的依附对象信息
+  - transform 碰撞对象的依附对象的位置信息
+  - contactCount 触碰点数相关信息
+  - contacts 具体接触点的坐标信息
+
+2. OnCollisionExit(collision)
+
+> 碰撞结束分离时，自动执行此函数
+
+3. OnCollisionStay(collision)
+
+> 两个物体相互接触摩擦时，会不停的调用此函数
+> 静止时不触发，需要两个物体产生摩擦
+
+#### 触发检测函数
+
+1. OnTriggerEnter(collision)
+
+> 触发开始时，第一次接触时会自动调用
+
+1. OnCollisionExit(collision)
+
+> 触发结束时，当和触发器没有相交时，会调用一次
+
+1. OnCollisionStay(collision)
+
+> 两个对象处于相交状态时，会不停的调用
+
+#### 函数响应
+
+只要挂载的对象能和别的对象物体产生碰撞、或者触发效果(也就是有碰撞器、或者触发器)，那么对应的函数就会被响应；不管物体是否有刚体都是可以触发的；
+
+但是如果是一个异形物体，刚体在父对象上时，在子对象上挂载碰撞检测脚本是无效的，必须挂载到有刚体的父对象上才能触发。
+
+#### 刚体
+
+给刚体添加力的作用就会使目标朝着某个方向移动
+
+- 添加力，让其运动
+  - AddForce 世界坐标系
+  - AddRelativeForce 本地坐标系
+
+物体是否停止取决于阻力
+
+```c#
+// 获取刚体组件
+rigidBody = this.GetComponent<Rigidbody>();
+// 相对世界坐标系，z轴正方向施加了一个力
+rigidBody.AddForce(Vector3.forward * 10);
+// 相对本地坐标系
+rigidBody.AddForce(this.transform.forward * 10);
+rigidBody.AddRelativeForce(Vector3.forward * 10);
+```
+
+- 添加扭矩力，让其旋转
+  - AddTorque 世界坐标系
+  - AddRelativeTorque 本地坐标系
+
+```c#
+// 相对世界坐标系，施加了一个扭矩力，绕y轴旋转
+rigidBody.AddTorque(Vector3.up * 10);
+// 相对本地坐标系
+rigidBody.AddRelativeTorque(this.transform.up * 10);
+rigidBody.AddRelativeTorque(Vector3.up * 10);
+```
+
+- Velocity 直接改变速度
+
+只相对于世界坐标系
+
+```c#
+rigidBody.velocity = Vector3.forward * 5;
+```
+
+- AddExplosionForce 模拟爆炸效果
+
+在某个位置模拟产生一个爆炸的力，使其周围的物体所到影响
+
+```c#
+rigidBody.AddExplosionForce(100, Vector3.zero, 10);
+```
+
+#### 力的模式
+
+1. 动量定理
+
+- Ft = mv
+  - F: 力
+  - t: 时间
+  - m: 质量
+  - v: 速度
+- v = Ft/m
+
+1. Acceleration
+
+给物体增加一个持续的加速度，忽略其质量
+
+```sh
+v = Ft/m
+F: (0,0,10)
+t: 0.02s # Fixed Timestep unity中物理更新时间(每帧更新时间)
+m: 默认为1
+v = 10 * 0.02 / 1 = 0.2m/s
+# d距离 = v * t
+# 每物理帧移动 0.2m/s * 0.02s = 0.004m
+```
+
+2. Force
+
+给物体增加一个持续的力，与物体的质量有关
+
+没有忽略任何变量，受力/质量/时间影响，最符合真实情况
+
+```sh
+v = Ft/m
+F: (0,0,10)
+t: 0.02s
+m: 2kg # 假设物体2kg
+v = 10 * 0.02 / 2 = 0.2m/s
+# 每物理帧移动 0.1m/s * 0.02s = 0.002m
+```
+
+3. Impulse
+
+给物体增加一个持续的力，与物体的质量有关，忽略时间，默认为 1
+
+```sh
+v = Ft/m
+F: (0,0,10)
+t: 默认为1
+m: 2kg # 假设物体2kg
+v = 10 * 1 / 2 = 5m/s
+# 每物理帧移动 5m/s * 0.02s = 0.1m
+```
+
+4. VelocityChange
+
+给物体添加一个随时速度，忽略质量，忽略时间，只和力的大小有关
+
+```sh
+v = Ft/m
+F: (0,0,10)
+t: 默认为1
+m: 默认为1
+v = 10 * 1 / 1 = 10m/s
+# 每物理帧移动 10m/s * 0.02s = 0.2m
+```
+
+5. 力场脚本 Constant Force
+6. 刚体休眠
+
+unity 为了节省性能，刚体存在休眠状态，这时可能不受力的影响
+
+- rigiBody.IsSleeping 是否休眠
+- rigiBody.WakeUp() 唤醒
+
+

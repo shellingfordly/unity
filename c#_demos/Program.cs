@@ -491,18 +491,18 @@
 
 // Console.WriteLine(Math.Floor(a * 60));
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+// using System;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Threading;
 
-double a = 0.00233333333231231314241;
+// double a = 0.00233333333231231314241;
 
-double time = 1676599322136 ;
+// double time = 1676599322136 ;
 
-int r = (int)(a * time);
-double r2= a*time;
-int r3 = (int)r2;
-Console.WriteLine(r);
-Console.WriteLine(r2);
-Console.WriteLine(r3);
+// int r = (int)(a * time);
+// double r2= a*time;
+// int r3 = (int)r2;
+// Console.WriteLine(r);
+// Console.WriteLine(r2);
+// Console.WriteLine(r3);
