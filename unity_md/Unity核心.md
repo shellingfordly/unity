@@ -1,8 +1,8 @@
-## 基础知识
+# 基础知识
 
-### 2D 相关
+## 2D 相关
 
-#### 图片
+### 图片
 
 1. unity 支持的图片格式
 
@@ -23,7 +23,9 @@
 - 平台设置
 - 预览窗口
 
-#### 纹理
+### 纹理
+
+#### 纹理类型
 
 1. Default 默认纹理
 
@@ -150,15 +152,204 @@ MipMap 有限级，Unity 根据优先级来确定分配资源时优先考虑哪�
   - Alpha Cutoff Value 覆盖率参考值
 - Fadeout Mip Maps 级别递减时使 Mipmap 淡化为灰色
 
-
 #### Mip Map
 
-在三维计算机图形的贴图渲染中有一个常用的技术被称为Mipmapping；为了加快渲染速度和减少图像锯齿，贴图被处理成由一系列预先计算和优化过的图片组成的文件，这养的贴图就被称为mipmap。
+在三维计算机图形的贴图渲染中有一个常用的技术被称为 Mipmapping；为了加快渲染速度和减少图像锯齿，贴图被处理成由一系列预先计算和优化过的图片组成的文件，这养的贴图就被称为 mipmap。
 
-Mipmap需要占用一定的内存空间，mipmap中每一个层级的小图都是主图的一个特定比列的缩小细节的复制品；虽然在某些必要的视角，主图仍然会被使用来渲染细节；但是当贴图被缩小或者只需要从远距离观看时，mipmap就会转换到适当的层级。
+Mipmap 需要占用一定的内存空间，mipmap 中每一个层级的小图都是主图的一个特定比列的缩小细节的复制品；虽然在某些必要的视角，主图仍然会被使用来渲染细节；但是当贴图被缩小或者只需要从远距离观看时，mipmap 就会转换到适当的层级。
 
-因为mipmap贴图需要被读取的像素远少于普通贴图，所以渲染速度得到了提升；而且操作的视角减少了，因为mipmap的图片已经是做过抗锯齿处理的，从而减少了实时渲染的负担，放大和缩小也因为mipmap变得更有效率。
+因为 mipmap 贴图需要被读取的像素远少于普通贴图，所以渲染速度得到了提升；而且操作的视角减少了，因为 mipmap 的图片已经是做过抗锯齿处理的，从而减少了实时渲染的负担，放大和缩小也因为 mipmap 变得更有效率。
 
-如果贴图基本尺寸是256x256像素的话，mipmap就会有8个层级，每个层级是上一层级的四分之一大小；依次层级大小就是：128x128,64x64,32x32,16x16,8x8,4x4,2x2,1x1(一个像素)。
+如果贴图基本尺寸是 256x256 像素的话，mipmap 就会有 8 个层级，每个层级是上一层级的四分之一大小；依次层级大小就是：128x128,64x64,32x32,16x16,8x8,4x4,2x2,1x1(一个像素)。
 
-简单点说，开启Mip Map功能后，Unity会帮助我们根据图片信息生成n张不同分辨率的图片，在场景中会根据我们离该模型的距离选择合适尺寸的图片用于渲染，提升渲染效率。
+简单点说，开启 Mip Map 功能后，Unity 会帮助我们根据图片信息生成 n 张不同分辨率的图片，在场景中会根据我们离该模型的距离选择合适尺寸的图片用于渲染，提升渲染效率。
+
+#### 平铺拉伸
+
+1. Wrap Mode 平铺纹理
+
+- Repeat 在区块中重复纹理
+- Clamp 拉伸纹理的边缘
+- Mirror 在每个整数边界上镜像纹理以创建重复图案
+- Mirror Once 镜像纹理一次，然后将拉伸边缘纹理
+- Per-axis 单独控制如何在 U 轴和 V 轴上包裹纹理
+
+2. Filter Mode 纹理在通过 3D 变化拉伸时如何进行过度
+3. Aniso Level 以大角度查看纹理时提高纹理质量，性能消耗高
+
+#### 平台设置
+
+1. MaxSize
+
+设置导入的纹理的最大尺寸，即使美术出的图很大，也可以通过这里把图片限制在一定的范围内
+
+2. Resize Algorithm
+
+当纹理尺寸大于指定的 Max Size 时，使用的缩小算法
+
+- Mitchell 默认米切尔算法来调整大小，该算法是常用的尺寸缩小算法
+- Bilinear 双线性插值来调整大小；如果细节很重要的图片，它比 Mitchell 算法保留更多细节
+
+3. Format 纹理格式
+
+各平台支持的格式有所不同，如果选择 Automatic，会根据平台使用默认设置。
+
+- IOS
+  - PVRTC
+  - ASTC
+- Android
+  - ASTC
+  - ETC2/EAC
+  - ETC
+  - RGBA 16 位
+  - RGBA 32 位
+
+4. Compression
+
+选择纹理的压缩类型，帮助 Unity 正确选择压缩格式，会根据平台和压缩格式的可用性进行压缩
+
+- None 不压缩纹理
+- Low Quality 以低质量格式压缩纹理
+- Normal Quality 以标准格式压缩纹理
+- High Quality 以高质量格式压缩纹理
+
+5. Use Crunch Compression
+
+启用后使用 Crunch 压缩，Crunch 是一种基于 DXT 或 ETC 纹理压缩的有损压缩格式、压缩时间长、压缩速度快
+
+- Compressor Quality 压缩质量，质量越高意味着纹理越大，压缩时间越长
+
+6. Split Alpha Channel
+
+当 Format 为 ETC 格式时，才会出现此参数
+
+Alpha 通道分离，节约内存，会把一张图分成两张纹理。一张包涵 RGB 数据，一张包涵 Alpha 数据，在渲染时在合并渲染。
+
+7. Override ETC2 Fallback
+
+不支持 ETC2 压缩的设备上使用的格式
+
+### Sprite
+
+#### Sprite Editor
+
+##### Sprite 图片编辑
+
+1. 参数
+
+- Name
+- Position 在图片中的偏移位置和宽高
+- Border 边框，用于设置九宫格的 4 跳边
+- Pivot 轴心(中心)点位置
+  - Pivot Unit Mode 轴心点单位模式
+  - Normalized 标准化模式，0-1
+  - Pixels 像素模式
+- Custom Pivot 自定义轴心点
+
+2. Custom Outline 渲染区域
+
+自定义边缘线设置，可以自定义精灵网格的轮廓形状；
+默认情况下在矩形网格上渲染，边缘外部透明区域会被渲染，浪费性能；
+使用自定义轮廓，可以调小透明区域，提高性能
+
+- Snap 将控制点贴近在最近的像素
+- Outline Tolerance 轮廓点的复杂性和准确性，0-1 值越大轮廓点越多，越准确
+- Generate 生成网格轮廓
+
+3. Custom Physics Shape 决定碰撞判断区域
+
+自定义精灵图片的物理性状，主要用于设置需要物理碰撞判断的 2D 图形；
+决定了之后产生碰撞检测的区域；
+参数和 Custom Outline 一样；
+
+4. Secondary Textures 为图片添加特殊效果
+
+次要纹理设置，可以将其他纹理和该精灵图关联
+着色器可以得到这些辅助纹理然后用于做一些效果处理，让精灵应用其他效果
+
+##### Multiple 图集元素分割
+
+1. Automatic 自动分割
+
+- Pivot 单张图片轴心点位置
+- Custom Pivot 自定义轴心点
+  - Delete Existing 替换已选择的任何矩形
+  - Smart 尝试创建新矩形同时保留或调整现有矩形
+  - Safe 添加新矩形而不更改任何已经存在的矩形
+- Method 如何处理现有对象
+
+2. Grid By Cell Size 按单元格大小切割
+
+- Pixel Size 单元格宽高
+- Offset 偏移位置
+- Padding 和边缘的偏移位置
+- Keep Empty Rects 是否保留空矩形
+
+3. Grid Bey Cell Count
+
+- Column & Row 行列数
+
+##### Polygon 多边形编辑
+
+#### Sprite Renderer
+
+1. Sprite 渲染的精灵图片
+2. Color 定义着色，一般没有特殊需求不会修改
+3. Filp 水平或者竖直翻转精灵图片
+4. Draw Mode 绘制模式，当尺寸变化时的缩放方式
+
+- Simple 简单模式，缩放时整个图像一起缩放
+- Sliced 切片模式
+  - 9宫格切片模式，十字区域缩放，4个角不变化
+  - 一般用于变化不大的纯色图
+  - 需要把精灵图的网格类型设置为Full Rect
+- Tiled 平铺模式，将中间部分平铺而不是缩放
+  - 网格类型Full Rect
+  - Continuous 当尺寸变化时，中间部分将均匀平埔
+  - Adaptive 当尺寸变化时，类似Simple模式，当更改尺寸达到Stretch Value时，中间才开始平铺
+
+5. Mask Interaction 与精灵遮罩交互时的方式
+
+- None 不与场景中任何精灵遮罩交互
+- Visible Inside Mask 精灵遮罩覆盖的地方可见，而遮罩外部不可见
+- Visible Outside Mask 精灵遮罩外部的地方可见，而遮罩覆盖处不可见
+
+6. Sprite Sort Point
+
+计算摄像机和精灵之间距离时，使用精灵中心Center还是轴心点Pivot，一般情况不修改
+
+7. Material 材质
+
+可以使用一些自定义材质来显示一些特殊效果，一般情况不修改；
+默认材质时不会受到光照影响的，如果想要受光照影响，可以选择Default Diffuse
+
+8. Additional Setting 高级设置
+
+- Sorting Layer 排序层选择
+- Order in Layer 层级序列号，数值越大显示在越前面
+
+
+9. 通过代码设置
+
+```c#
+GameObject obj = new GameObject();
+SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
+sr.sprite = Resources.Load<Sprite>("name");
+// sr.color
+// sr.filp
+Sprite[] sprList = Resources.LoadAll<Sprite>("name");
+```
+
+#### Sprite Creator
+
+#### Sprite Mask
+
+#### Sprite Group
+
+#### 图集制作
+
+### 物理系统
+
+### Sprite Shape
+
+### Tile map
