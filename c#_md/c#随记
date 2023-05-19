@@ -1,0 +1,28 @@
+# C#学习笔记
+
+## 类
+
+### 扩展类
+
+通过public static class声明一个扩展类，表示类中的成员是其他类的扩展属性
+
+通过public static 声明一个扩展方法，扩展方法第一个参数this SomeClass obj定义为哪个类的实例进行扩展
+
+扩展方法所在的类只需要和扩展目标类在同一个命名空间下即可，而无需目标类显式地继承自相关扩展类。
+
+当调用 obj.Foo() 时，编译器会将其转换成静态方法调用的形式，即 ExtensionClass.Foo(obj)，从而使得表现形式和调用普通的实例方法相同。
+
+扩展方法只能通过静态类和静态方法实现，静态方法是无法访问类的实例成员，关键字 this 所修饰的类型的参数来实现对实例成员的访问
+
+```c#
+public static class ExtensionClass
+{
+    public static void Foo(this SomeClass obj)
+    {
+        // Do something
+    }
+}
+// 调用
+SomeClass obj = new SomeClass();
+obj.Foo(); // 扩展方法调用
+```
